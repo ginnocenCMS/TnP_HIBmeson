@@ -210,6 +210,9 @@ void doTnPRooFit(){
 
   TFile *outf = new TFile("TnPRooFitMC.root","recreate");
   outf->cd();
+  eff_trg->Write();
+  eff_trk->Write();
+  eff_id->Write();
   c->Write();
   for(int i = 0; i < nMuPtBin; i++){
     croofit_trg_pass[i]->Write();

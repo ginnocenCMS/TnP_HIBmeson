@@ -7,12 +7,13 @@
 #include <TGraphAsymmErrors.h>
 #include <TStyle.h>
 using namespace std;
+string effname = "id";
+
 void DrawCompare(){
   gStyle->SetOptStat("0");
-  string effname = "id";
-  TFile *infMC = new TFile("TNPMC.root");
+  TFile *infMC = new TFile("../TnPOutMC.root");
+  TFile *inf = new TFile("../TnPOut.root");
   TH1D* effMC = (TH1D*)infMC->Get(Form("eff_%s",effname.c_str()));
-  TFile *inf = new TFile("TNP.root");
   TH1D* eff = (TH1D*)inf->Get(Form("eff_%s",effname.c_str()));
   TH1D* sf = (TH1D*)eff->Clone("sf");
   sf->Divide(effMC);
