@@ -14,8 +14,12 @@ double bhigh = 3.5;
 double measure = (bhigh-blow)/nBin;
 //width 2.9~3.3
 double sideband_width = 0.2;
+
 bool quiet = false;
 int numCPU = 6;
+TString ninf = "../BfinderBoostedMC_20140701_inclBtoPsiMuMu_pa_STARTHI53_V27-v1_00000_reduce.root";
+TString noutf = "../TnPOutMC.root";
+TString plotfolder = "PlotsSideBandMC";
 
 //TTree variable
 double massTrg, massTrk, massID;
@@ -28,9 +32,8 @@ TTree* TnPtreeTrg, TTree* TnPtreeTrk, TTree* TnPtreeID){
   TChain *nt = new TChain("demo/root");
   //TChain *hlt = new TChain("hltanalysis/HltTree");
   TChain *hlt = new TChain("demo/HltTree");
-  string inf = "../BfinderBoostedMC_20140628_inclBtoPsiMuMu_pa_STARTHI53_V27-v1_00000_reduce.root";
-  nt->Add(inf.c_str());
-  hlt->Add(inf.c_str());
+  nt->Add(ninf);
+  hlt->Add(ninf);
 
   nt->SetBranchStatus("*" ,0);
   nt->SetBranchStatus("MuonInfo*" ,1);
@@ -319,7 +322,7 @@ int TnPeff(){
   leg->AddEntry(eff_trk, "Trk", "p");
   leg->AddEntry(eff_id, "ID", "p");
   leg->Draw("same");
-  TFile *outf = new TFile("../TnPOutMC.root","recreate");
+  TFile *outf = new TFile(noutf,"recreate");
   outf->cd();
   TnPtreeTrg->Write();
   TnPtreeTrk->Write();
@@ -329,6 +332,8 @@ int TnPeff(){
   eff_id->Write();
   c->Write();
 
+  TCanvas *cforSave= new TCanvas("cforSave","",600,600);
+  cforSave->cd();
   for(int i = 0; i < nMuPtBin; i++){
     hmumu_trg_all[i]->Write();
     hmumu_trg_pass[i]->Write();
@@ -336,6 +341,19 @@ int TnPeff(){
     hmumu_trk_pass[i]->Write();
     hmumu_id_all[i]->Write();
     hmumu_id_pass[i]->Write();
+
+    hmumu_trg_all[i]->Draw();
+    cforSave->SaveAs(Form("%s/hmumu_trg_all_%d.pdf",plotfolder.Data(), i));
+    hmumu_trg_pass[i]->Draw();
+    cforSave->SaveAs(Form("%s/hmumu_trk_all_%d.pdf",plotfolder.Data(), i));
+    hmumu_trk_all[i]->Draw();
+    cforSave->SaveAs(Form("%s/hmumu_id_all_%d.pdf",plotfolder.Data(), i));
+    hmumu_trk_pass[i]->Draw();
+    cforSave->SaveAs(Form("%s/hmumu_trg_pass_%d.pdf",plotfolder.Data(), i));
+    hmumu_id_all[i]->Draw();
+    cforSave->SaveAs(Form("%s/hmumu_trk_pass_%d.pdf",plotfolder.Data(), i));
+    hmumu_id_pass[i]->Draw();
+    cforSave->SaveAs(Form("%s/hmumu_id_pass_%d.pdf",plotfolder.Data(), i));
   }
   outf->Close();
   return 0;

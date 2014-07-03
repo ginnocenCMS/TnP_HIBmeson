@@ -20,18 +20,21 @@
 using namespace std;
 using namespace RooFit;
 
-const int nMuPtBin = 1;
-//const int nMuPtBin = 7;
-const double MuPtBin[nMuPtBin+1] = {0,30};
-//const double MuPtBin[nMuPtBin+1] = {0.0,1.5,3.0,4.5,6.0,9.0,20.0,30.0};
+//const int nMuPtBin = 1;
+const int nMuPtBin = 7;
+//const double MuPtBin[nMuPtBin+1] = {0,30};
+const double MuPtBin[nMuPtBin+1] = {0.0,1.5,3.0,4.5,6.0,9.0,20.0,30.0};
 int numCPU = 6;
 bool quiet = false;
+TString ninf = "../TnPOutMC.root";
+TString noutf = "TnPRooFitMC.root";
+TString plotfolder = "PlotsRooFitMC";
 
 void doRooFit(double &npass, double &nfail, double &npass_err, double &nfail_err,
 TCanvas* cpass, TCanvas* cfail, double ptlow, double pthigh, TString tree_type,
 int pdfset
 ){
-  TFile *f = new TFile("../TnPOutMC.root"); 
+  TFile *f = new TFile(ninf); 
   TTree* TnPtree;
   TnPtree = (TTree*)f->Get("TnPtree"+tree_type);
 
@@ -208,7 +211,7 @@ void doTnPRooFit(){
   leg->AddEntry(eff_id, "ID", "p");
   leg->Draw("same");
 
-  TFile *outf = new TFile("TnPRooFitMC.root","recreate");
+  TFile *outf = new TFile(noutf,"recreate");
   outf->cd();
   eff_trg->Write();
   eff_trk->Write();
@@ -221,6 +224,12 @@ void doTnPRooFit(){
     croofit_trg_fail[i]->Write();
     croofit_trk_fail[i]->Write();
     croofit_id_fail[i]->Write();
+    croofit_trg_pass[i]->SaveAs(Form("%s/croofit_trg_pass_%d.pdf",plotfolder.Data(), i));
+    croofit_trk_pass[i]->SaveAs(Form("%s/croofit_trk_pass_%d.pdf",plotfolder.Data(), i));
+    croofit_id_pass[i]->SaveAs(Form("%s/croofit_id_pass_%d.pdf",plotfolder.Data(), i));
+    croofit_trg_fail[i]->SaveAs(Form("%s/croofit_trg_fail_%d.pdf",plotfolder.Data(), i));
+    croofit_trk_fail[i]->SaveAs(Form("%s/croofit_trk_fail_%d.pdf",plotfolder.Data(), i));
+    croofit_id_fail[i]->SaveAs(Form("%s/croofit_id_fail_%d.pdf",plotfolder.Data(), i));
   }
   outf->Close();
 }

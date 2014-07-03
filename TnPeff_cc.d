@@ -100,5 +100,7 @@
 ./TnPeff_cc.so: /net/hisrv0001/home/tawei/root-binaries/root/include/TGraphAsymmErrors.h
 ./TnPeff_cc.so: /net/hisrv0001/home/tawei/root-binaries/root/include/TGraph.h
 ./TnPeff_cc.so: /net/hisrv0001/home/tawei/root-binaries/root/include/TStyle.h
+./TnPeff_cc.so: /net/hisrv0001/home/tawei/root-binaries/root/include/TLatex.h
+./TnPeff_cc.so: /net/hisrv0001/home/tawei/root-binaries/root/include/TText.h
 ./TnPeff_cc.so: /net/hisrv0001/home/tawei/root-binaries/root/include/cintdictversion.h /net/hisrv0001/home/tawei/root-binaries/root/include/RVersion.h
 TnPeff_cc__ROOTBUILDVERSION= 5.34/18
