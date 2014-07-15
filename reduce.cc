@@ -5,8 +5,12 @@
 #include "iostream"
 using namespace std;
 void reduce(){
-//	string inf = "/net/hisrv0001/home/tawei/tawei/Bfinder/BfinderBoostedMC_20140628_inclBtoPsiMuMu_pa_STARTHI53_V27-v1_00000/*.root";
-	string inf = "/net/hisrv0001/home/tawei/tawei/Bfinder/BfinderBoostedMC_20140701_inclBtoPsiMuMu_pa_STARTHI53_V27-v1_00000/*.root";
+//	string inf = "/net/hisrv0001/home/tawei/tawei/Bfinder/BfinderBoostedMC_20140701_inclBtoPsiMuMu_pa_STARTHI53_V27-v1_00000/*.root";
+//	string inf = "/net/hisrv0001/home/tawei/tawei/Bfinder/BfinderBoostedMC_20140701_inclBtoPsiMuMu_pa_STARTHI53_V27-v1_20000/*.root";
+//	string inf = "/net/hisrv0001/home/tawei/tawei/Bfinder/Calo_BfinderBoostedMC_20140701_inclBtoPsiMuMu_pa_STARTHI53_V27-v1_00000/*.root";
+//	string inf = "/mnt/hadoop/cms/store/user/twang/HI_Btuple/20140707_PAMuon_HIRun2013_28Sep2013_v1/*.root";
+//	string inf = "/net/hisrv0001/home/tawei/tawei/Bfinder/BfinderBoostedMC_20140708_inclBtoPsiMuMu_pa_STARTHI53_V27-v1_00000/*.root";
+	string inf = "/mnt/hadoop/cms/store/user/twang/HI_Btuple/hckim-HIJINGemb_inclBtoPsiMuMu/*.root";
     TChain *nt = new TChain("demo/root");
     TChain *hlt = new TChain("hltanalysis/HltTree");
 	nt->Add(inf.c_str());

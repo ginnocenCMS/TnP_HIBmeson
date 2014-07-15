@@ -89,7 +89,8 @@ bool KisooTrackSel(MuonInfoBranches MuonInfo, int mu1){
   else return false;
 };
 bool KisooGlobalSel(MuonInfoBranches MuonInfo, int mu1){
-  if((MuonInfo.muqual[mu1] & 1<<12) &&
+  if(
+    (MuonInfo.muqual[mu1] & 1<<12) &&
     (MuonInfo.muqual[mu1] & 1<<4)
   ) return true;
   else return false;

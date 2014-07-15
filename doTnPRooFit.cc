@@ -22,13 +22,16 @@ using namespace RooFit;
 
 //const int nMuPtBin = 1;
 const int nMuPtBin = 7;
-//const double MuPtBin[nMuPtBin+1] = {0,30};
+//const double MuPtBin[nMuPtBin+1] = {0,1.5};
 const double MuPtBin[nMuPtBin+1] = {0.0,1.5,3.0,4.5,6.0,9.0,20.0,30.0};
 int numCPU = 6;
 bool quiet = false;
-TString ninf = "../TnPOutMC.root";
-TString noutf = "TnPRooFitMC.root";
-TString plotfolder = "PlotsRooFitMC";
+//TString ninf = "../TnPOutMC.root";
+TString ninf = "../TnPOut.root";
+//TString noutf = "TnPRooFitMC.root";
+TString noutf = "TnPRooFit.root";
+//TString plotfolder = "PlotsRooFitMC";
+TString plotfolder = "PlotsRooFit";
 
 void doRooFit(double &npass, double &nfail, double &npass_err, double &nfail_err,
 TCanvas* cpass, TCanvas* cfail, double ptlow, double pthigh, TString tree_type,
@@ -66,7 +69,7 @@ cout<<data_setFail->sumEntries()<<endl;
   RooRealVar nbkgFail("nbkgFail","nbkgFail",data_setFail->sumEntries()*0.1,0.,1E10);
 
   RooRealVar mean_CB("mean_CB","mean_CB",3.1, 3.0, 3.2);
-  RooRealVar sigma_CB("sigma_CB","sigma_CB", 0.02);
+  RooRealVar sigma_CB("sigma_CB","sigma_CB", 0.05);
   sigma_CB.setConstant(kFALSE);
   RooRealVar alpha_CB("alpha_CB","alpha_CB", 2.0, 1.0, 5.0);
   RooRealVar n_CB("n_CB","n_CB", 1, 0.5, 100.0);
@@ -196,6 +199,7 @@ void doTnPRooFit(){
     eff_trk->SetBinContent(i+1, npass/(npass+nfail));
     eff_trk->SetBinError(i+1, 0.00001);
     doRooFit(npass, nfail, npass_err, nfail_err, croofit_id_pass[i], croofit_id_fail[i], MuPtBin[i], MuPtBin[i+1], "ID", 1); 
+//    doRooFit(npass, nfail, npass_err, nfail_err, croofit_id_pass[i], croofit_id_fail[i], MuPtBin[i], MuPtBin[i+1], "ID", 2); 
     eff_id->SetBinContent(i+1, npass/(npass+nfail));
     eff_id->SetBinError(i+1, 0.00001);
   }
@@ -216,7 +220,15 @@ void doTnPRooFit(){
   eff_trg->Write();
   eff_trk->Write();
   eff_id->Write();
+  c->SaveAs(Form("%s/eff.pdf",plotfolder.Data()));
   c->Write();
+
+  eff_trg->Draw("pe");
+  c->SaveAs(Form("%s/eff_trg.pdf",plotfolder.Data()));
+  eff_trk->Draw("pe");
+  c->SaveAs(Form("%s/eff_trk.pdf",plotfolder.Data()));
+  eff_id->Draw("pe");
+  c->SaveAs(Form("%s/eff_id.pdf",plotfolder.Data()));
   for(int i = 0; i < nMuPtBin; i++){
     croofit_trg_pass[i]->Write();
     croofit_trk_pass[i]->Write();
